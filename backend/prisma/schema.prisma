@@ -1,13 +1,16 @@
 generator client {
     provider = "prisma-client-js"
 }
+
 datasource db {
     provider = "mongodb"
     url      = env("DATABASE_URL")
 }
 
 model Favorite {
-    id   String @id @map("_id") @default(auto()) @db.ObjectId
-    name String
-    data Json?
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    pokemonId Int      @unique
+    data      Json?
+    createdAt DateTime @default(now())
 }
