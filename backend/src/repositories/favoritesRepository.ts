@@ -6,6 +6,7 @@ export interface IFavoritesRepository {
   removeFavorite(pokemonId: number): Promise<void>;
   getFavorites(): Promise<Favorite[]>;
   isFavorite(pokemonId: number): Promise<boolean>;
+  close(): Promise<void>;
 }
 
 export class FavoritesRepository implements IFavoritesRepository {
