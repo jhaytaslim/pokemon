@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { FavoritesRepository } from "../repositories/favoritesRepository";
+import { AddFavoriteRequest } from "../types"; // From types
 
 let favoritesRepo: FavoritesRepository;
 
@@ -11,10 +12,33 @@ export async function initFavoritesRepo(): Promise<void> {
 }
 
 /**
- * Adds favorite.
+ * @swagger
+ * /favorites:
+ *   post:
+ *     summary: Add a Pokémon to favorites
+ *     tags: [Favorites]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AddFavoriteRequest'
+ *     responses:
+ *       201:
+ *         description: Successfully added
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Added to favorites
+ *       500:
+ *         description: Server error
  */
 export const addFavorite = async (
-  req: Request,
+  req: Request<{}, {}, AddFavoriteRequest>,
   res: Response
 ): Promise<void> => {
   const { pokemonId, name } = req.body;
@@ -28,7 +52,31 @@ export const addFavorite = async (
 };
 
 /**
- * Removes favorite.
+ * @swagger
+ * /favorites/{pokemonId}:
+ *   delete:
+ *     summary: Remove a Pokémon from favorites
+ *     tags: [Favorites]
+ *     parameters:
+ *       - in: path
+ *         name: pokemonId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the Pokémon
+ *     responses:
+ *       200:
+ *         description: Successfully removed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Removed from favorites
+ *       500:
+ *         description: Server error
  */
 export const removeFavorite = async (
   req: Request,
@@ -45,7 +93,22 @@ export const removeFavorite = async (
 };
 
 /**
- * Gets all favorites.
+ * @swagger
+ * /favorites:
+ *   get:
+ *     summary: Get all favorites
+ *     tags: [Favorites]
+ *     responses:
+ *       200:
+ *         description: List of favorites
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Favorite'
+ *       500:
+ *         description: Server error
  */
 export const getFavorites = async (
   req: Request,

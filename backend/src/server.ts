@@ -1,14 +1,29 @@
 import express from "express";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import { specs } from "./swagger"; // New import
 import routes from "./routes";
 import { initFavoritesRepo } from "./controllers/favorites";
 import { PrismaClient } from "@prisma/client";
+import { AppConfig } from "../config";
 
 const app = express();
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+// Swagger/OpenAPI setup (new)
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  })
+);
+app.use("/api-docs.json", (_req, res) => res.json(specs)); // Raw spec
 
 app.use("/api", routes);
 
@@ -16,15 +31,14 @@ app.use("/api", routes);
 const prisma = new PrismaClient();
 initFavoritesRepo(); // Assumes repo uses global or injected prisma
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(AppConfig.PORT, () => {
+  console.log(`Server running on port http://localhost:${AppConfig.PORT}/api`);
+  console.log(
+    `Swagger docs available at http://localhost:${AppConfig.PORT}/api-docs`
+  );
 });
 
 // Graceful shutdown
 process.on("SIGTERM", async () => {
   await prisma.$disconnect();
-});
-process.on("SIGINT", async () => {
-  await prisma.$disconnect();
-  process.exit(0);
 });

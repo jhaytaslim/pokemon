@@ -1,17 +1,31 @@
 import axios from "axios";
 import { Request, Response } from "express";
-
-const POKEAPI_BASE = "https://pokeapi.co/api/v2";
+import { PokemonListResponse, PokemonDetails } from "../types";
 
 /**
- * Fetches first 150 Pokémon.
+ * @swagger
+ * /pokemon:
+ *   get:
+ *     summary: Fetch first 150 Pokémon
+ *     tags: [Pokémon]
+ *     responses:
+ *       200:
+ *         description: Pokémon list
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PokemonListResponse'
+ *       500:
+ *         description: Proxy error
  */
 export const getPokemonList = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const { data } = await axios.get(`${POKEAPI_BASE}/pokemon?limit=150`);
+    const { data } = await axios.get(
+      "https://pokeapi.co/api/v2/pokemon?limit=150"
+    );
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch Pokémon list" });
@@ -19,7 +33,27 @@ export const getPokemonList = async (
 };
 
 /**
- * Fetches detailed Pokémon info including evolutions.
+ * @swagger
+ * /pokemon/{id}:
+ *   get:
+ *     summary: Get Pokémon details including evolutions
+ *     tags: [Pokémon]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Pokémon ID or name
+ *     responses:
+ *       200:
+ *         description: Pokémon details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PokemonDetails'
+ *       500:
+ *         description: Proxy error
  */
 export const getPokemonDetails = async (
   req: Request,
@@ -27,7 +61,9 @@ export const getPokemonDetails = async (
 ): Promise<void> => {
   const { id } = req.params;
   try {
-    const { data: pokemon } = await axios.get(`${POKEAPI_BASE}/pokemon/${id}`);
+    const { data: pokemon } = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon/${id}`
+    );
     let evolutions: any[] = [];
     if (pokemon.species.url) {
       const { data: species } = await axios.get(pokemon.species.url);
