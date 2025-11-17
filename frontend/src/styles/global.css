@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Styles */
+body {
+    @apply bg-gray-50 text-gray-900;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Pokémon List */
+.pokemon-list {
+    @apply max-w-4xl mx-auto p-4;
+}
+
+.pokemon-list__loading,
+.pokemon-list__error {
+    @apply text-center py-8 text-lg font-medium;
+}
+
+.pokemon-list__loading {
+    @apply text-gray-500;
+}
+
+.pokemon-list__error {
+    @apply text-red-500;
+}
+
+.pokemon-list__header {
+    @apply flex flex-col sm:flex-row gap-4 justify-between items-center mb-6;
+}
+
+.pokemon-list__filter-btn {
+    @apply px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors;
+}
+
+.pokemon-list__items {
+    @apply space-y-2;
+}
+
+.pokemon-list__item {
+    @apply flex items-center p-4 mb-2 bg-white rounded-lg shadow hover:shadow-lg cursor-pointer transition-all;
+}
+
+.pokemon-list__item--favorite {
+    @apply bg-yellow-50 border-2 border-yellow-300;
+}
+
+.pokemon-list__item-img {
+    @apply w-12 h-12 mr-4 flex-shrink-0;
+}
+
+.pokemon-list__item-name {
+    @apply flex-1 font-medium capitalize;
+}
+
+.pokemon-list__favorite-btn {
+    @apply mr-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors;
+}
+
+.pokemon-list__loader {
+    @apply text-center py-4 text-gray-500;
+}
+
+/* Pokémon Modal - FIXED: Wider, cleaner styling */
+.pokemon-modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50;
+}
+
+.pokemon-modal__overlay {
+    @apply absolute inset-0;
+}
+
+.pokemon-modal__content {
+    @apply relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col;
+    /* FIXED: Wider (max-w-2xl), rounded corners, full viewport height */
+}
+
+.pokemon-modal__header {
+    @apply flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50;
+    /* NEW: Dedicated header for title/close */
+}
+
+.pokemon-modal__title {
+    @apply text-2xl font-bold text-gray-900 capitalize;
+    /* FIXED: Cleaner title, no centering */
+}
+
+.pokemon-modal__close-btn {
+    @apply p-2 text-gray-400 hover:text-gray-600 rounded-full transition-colors;
+    /* NEW: Styled close button */
+}
+
+.pokemon-modal__body {
+    @apply p-6 space-y-6 overflow-y-auto flex-1;
+    /* FIXED: Body with scrolling, even spacing */
+}
+
+.pokemon-modal__section {
+    @apply space-y-3;
+    /* FIXED: Consistent section spacing */
+}
+
+.pokemon-modal__section h3 {
+    @apply font-semibold text-lg text-gray-800 border-b border-gray-200 pb-1;
+    /* FIXED: Underlined headings for neat separation */
+}
+
+.pokemon-modal__section ul {
+    @apply space-y-1 pl-0;
+    /* FIXED: No list-disc, use custom bullets for cleaner look */
+}
+
+.pokemon-modal__section li {
+    @apply flex items-center gap-2 py-1 text-gray-700 before:content-['•'] before:text-blue-500 before:mr-2;
+    /* FIXED: Custom bullet with blue dot */
+}
+
+.pokemon-modal__footer {
+    @apply p-6 border-t border-gray-200 bg-gray-50 flex justify-end;
+    /* NEW: Footer for button */
+}
+
+.pokemon-modal__loading {
+    @apply flex items-center justify-center py-12 text-gray-500 text-lg;
+}
+
+/* Search Bar */
+.search-bar {
+    @apply relative mb-4 max-w-md mx-auto;
+}
+
+.search-bar__input-wrapper {
+    @apply flex items-center border border-gray-300 rounded-md overflow-hidden focus-within:border-blue-500;
+}
+
+.search-bar__input {
+    @apply flex-1 px-4 py-2 text-sm outline-none bg-white placeholder-gray-500;
+}
+
+.search-bar__clear-btn {
+    @apply p-2 text-gray-400 hover:text-gray-600 bg-white border-l border-gray-200;
+}
+
+.search-bar__results-count {
+    @apply mt-2 text-xs text-gray-500 text-center;
+}
+
+/* App Header */
+.app__header {
+    @apply bg-blue-600 text-white p-4 text-center;
+}
+
+.app__header h1 {
+    @apply text-2xl font-bold;
+}
+
+/* Buttons (General) */
+button {
+    @apply px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+button:hover:not(:disabled) {
+    @apply opacity-90;
+}
+
+button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+}

@@ -1,10 +1,13 @@
+import api from "@/services/api";
+import { Favorite } from "@/types";
 import axios from "axios";
-import React, { createContext, useContext, useState, ReactNode } from "react";
-
-interface Favorite {
-  pokemonId: number;
-  name: string;
-}
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 interface FavoritesContextType {
   favorites: Favorite[];
@@ -61,15 +64,38 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({
     favorites.some((f) => f.pokemonId === pokemonId);
 
   // Load favorites on mount
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   const fetchFavorites = async () => {
+  //     try {
+  //       const { data } = await axios.get(
+  //         `${import.meta.env.VITE_API_URL}/favorites`
+  //       );
+  //       setFavorites(data);
+  //     } catch (error) {
+  //       console.error("Failed to load favorites");
+  //     }
+  //   };
+  //   fetchFavorites();
+  // }, []);
+
+  useEffect(() => {
     const fetchFavorites = async () => {
+      setLoading(true);
       try {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_API_URL}/favorites`
-        );
-        setFavorites(data);
-      } catch (error) {
-        console.error("Failed to load favorites");
+        const { data } = (await api.get("/favorites")) || {};
+        // const { data } =
+        //   (await axios.get(`${import.meta.env.VITE_API_URL}/favorites`)) || {};
+
+        if (Array.isArray(data)) {
+          setFavorites(data);
+        } else {
+          setFavorites([]);
+        }
+      } catch (err) {
+        console.error("API Error:", err); // Log full error
+        setFavorites([]);
+      } finally {
+        setLoading(false);
       }
     };
     fetchFavorites();

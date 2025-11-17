@@ -15,6 +15,7 @@
     "format": "prettier --write 'src/**/*.{ts,tsx,css}'"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.9",
     "axios": "^1.7.2",
     "eslint-plugin-react-hooks": "^7.0.1",
     "framer-motion": "^11.2.9",
@@ -25,6 +26,7 @@
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.5.2",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20.11.30",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -37,6 +39,7 @@
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-refresh": "^0.4.7",
     "jsdom": "^24.1.1",
+    "matchers-vitest": "link:@testing-library/jest-dom/matchers-vitest",
     "postcss": "^8.4.38",
     "prettier": "^3.3.2",
     "tailwindcss": "^3.4.4",
