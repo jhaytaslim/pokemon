@@ -1,0 +1,10 @@
+{
+  "name": "pokemon-favorites-app",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "install:all": "pnpm install",
+    "dev": "pnpm --parallel dev"
+  },
+  "devDependencies": {}
+}

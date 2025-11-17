@@ -1,0 +1,45 @@
+services:
+
+
+  # mongo:
+  #   image: mongo:7.0
+  #   restart: always
+  #   ports:
+  #     - "${MONGO_PORT}:${MONGO_PORT_CONTAINER}"
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+  #   command: --replSet rs0 --bind_ip_all  
+  #   volumes:
+  #     - mongo-data:/data/db
+  #     - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro 
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: always
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT_CONTAINER}"  # FIXED: Both from .env
+    environment:
+      DATABASE_URL: ${BACKEND_DATABASE_URL}  # Internal to mongo container port
+      PORT: ${BACKEND_PORT_CONTAINER}  # App listens on container port
+    volumes:
+      - ./backend:/app/backend  # Dev mount
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: always
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT_CONTAINER}"  # FIXED: Both from .env
+    environment:
+      VITE_API_URL: http://localhost:${BACKEND_PORT}/api  # Host port for browser
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app/frontend  # Dev mount
+
+volumes:
+  mongo-data:

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react"; // Add useRef
+import React, { useState, useEffect, useRef } from "react"; // Add useRef
 import { motion } from "framer-motion";
 import { useFavorites } from "@/hooks/useFavorites"; // Adjust import if needed
 import { usePokemonList } from "@/hooks/usePokemonList";
@@ -8,7 +8,6 @@ import SearchBar from "@/components/SearchBar";
 const PokemonList: React.FC = () => {
   const { pokemonList, loading, error } = usePokemonList();
   const {
-    favorites,
     isFavorite,
     addFavorite,
     removeFavorite,

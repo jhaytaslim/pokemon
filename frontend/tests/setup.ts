@@ -20,10 +20,10 @@ afterAll(() => {
 });
 
 // Optional: Mock React Query or Axios if needed globally
-// vi.mock('@tanstack/react-query', () => ({
-//   useQuery: vi.fn(),
-//   useMutation: vi.fn(),
-// }));
+vi.mock('@tanstack/react-query', () => ({
+  useQuery: vi.fn(),
+  useMutation: vi.fn(),
+}));
 
 // Mock intersection observer for lazy loading tests
 global.IntersectionObserver = vi.fn(() => ({

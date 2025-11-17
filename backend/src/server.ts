@@ -26,6 +26,7 @@ app.use(
 app.use("/api-docs.json", (_req, res) => res.json(specs)); // Raw spec
 
 app.use("/api", routes);
+app.get("/api/health", (req, res) => res.status(200).json({ status: "ok" }));
 
 // Init Prisma and Repo on startup
 const prisma = new PrismaClient();

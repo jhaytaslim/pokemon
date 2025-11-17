@@ -5,12 +5,12 @@ import { PrismaClient } from "@prisma/client";
 import routes from "../../src/routes";
 import { initFavoritesRepo } from "../../src/controllers/favorites";
 import { FavoritesRepository } from "../../src/repositories/favoritesRepository";
-import type { SuperAgentTest, Response } from "supertest"; // Explicit types for v7
+import type { Test } from "supertest"; // use Test type only
 
 let app: express.Application;
 let mongod: MongoMemoryServer;
 let prisma: PrismaClient;
-let request: SuperAgentTest<Response>; // Updated typing for Supertest v7
+let request: ReturnType<typeof supertest>; // Use inferred return type from supertest to match TestAgent/Test
 
 /**
  * Global setup for integration tests.
@@ -46,7 +46,7 @@ beforeAll(async () => {
   await initFavoritesRepo();
 
   // Supertest instance (with string URL enforcement)
-  request = supertest(app) as SuperAgentTest<Response>;
+  request = supertest(app); // FIXED: Direct assignment—no cast needed
 });
 
 /**
